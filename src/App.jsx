@@ -1,35 +1,69 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from "react";
+import { Header } from "./components/Header";
+import { Tasks } from "./components/Container";
+import { getTasks, insertTasks } from "./services/task-service";
+import { notifySuccess } from "./utils/toast-types";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [tasks, setTasks] = useState([]);
+
+  const loadSavedTasks = () => {
+    const saved = getTasks();
+    if (saved) setTasks(JSON.parse(saved));
+  };
+
+  useEffect(() => {
+    loadSavedTasks();
+  }, []);
+
+  const setTasksAndSave = (newTasks) => {
+    setTasks(newTasks);
+    insertTasks(newTasks);
+  };
+
+  const addTask = (taskTitle) => {
+    const nonRepeatedTasks = tasks.filter((task) => task.title === taskTitle);
+    if (nonRepeatedTasks) throw new Error("La tarea ha insertar ya existe");
+
+    setTasksAndSave([
+      ...tasks,
+      {
+        id: crypto.randomUUID(),
+        title: taskTitle,
+        isCompleted: false,
+      },
+    ]);
+  };
+
+  const deleteTaskById = (taskId) => {
+    const tasksWithoutDeleted = tasks.filter((task) => task.id !== taskId);
+    setTasksAndSave(tasksWithoutDeleted);
+    notifySuccess("La tarea ha sido eliminada.");
+  };
+
+  const toggleTaskCompletedById = (taskId) => {
+    const newTasks = tasks.map((task) => {
+      if (task.id === taskId) {
+        return {
+          ...task,
+          isCompleted: !task.isCompleted,
+        };
+      }
+      return task;
+    });
+    setTasksAndSave(newTasks);
+  };
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Header titleApp={"Mi lista de tareas"} handleAddTask={addTask} />
+      <Tasks
+        tasks={tasks}
+        onDelete={deleteTaskById}
+        onComplete={toggleTaskCompletedById}
+      />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

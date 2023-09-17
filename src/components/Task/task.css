@@ -1,0 +1,50 @@
+.task{
+    width:100%;
+    height:100%;
+    background:var(--color-gray-background);
+    border:1px solid var(--color-grey);
+    padding:16px;
+    border-radius:8px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:4rem;
+}
+
+.task p {
+    font-size: 14px;
+    line-height: 19px;
+    color: var(--color-text);
+    margin-right: auto;
+}
+
+p.textCompleted {
+    color: var(--color-text-deleted);
+    text-decoration: line-through;
+}
+
+.checkContainer {
+    width: 18px;
+    height: 18px;
+    background: none;
+    border: none;
+}
+
+.checkContainer div {
+    width: 100%;
+    height: 100%;
+    border-radius: 999px;
+    border: 2px solid var(--color-text);
+}
+
+.checkContainer svg {
+    width: 100%;
+    height: 100%;
+    color: var(--color-text);
+}
+
+.deleteButton {
+    background: none;
+    border: none;
+    color: var(--color-text);
+}

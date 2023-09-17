@@ -1,13 +1,38 @@
+:root {
+    --color-text: rgb(188, 140, 242);
+    --color-text-deleted: rgba(10, 146, 170, 0.87);
+    --color-background: #12081f;
+    --color-gray-background: #131313;
+    --color-black: #000000;
+    --color-white: #fff;
+    --color-grey: #262626;
+    --color-border: #0D0D0D;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-background);
+    border-radius: 50px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-text);
+    border-radius: 50px;
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Inter', sans-serif;
+    font-family: sans-serif;
 }
 
 body {
-    background: #191919;
-    color: #F2F2F2;
+    background: var(--color-background);
+    color: var(--color-text);
     min-height: 100vh;
 }
 

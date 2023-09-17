@@ -23,7 +23,8 @@ function App() {
 
   const addTask = (taskTitle) => {
     const nonRepeatedTasks = tasks.filter((task) => task.title === taskTitle);
-    if (nonRepeatedTasks) throw new Error("La tarea ha insertar ya existe");
+    if (nonRepeatedTasks && nonRepeatedTasks.length > 0)
+      throw new Error("La tarea ha insertar ya existe");
 
     setTasksAndSave([
       ...tasks,
